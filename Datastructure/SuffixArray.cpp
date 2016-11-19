@@ -1,17 +1,15 @@
 // khi có nhiều xâu ghép lại 1 thì phải thêm vô đuôi của mỗi xâu 1 $ và cho SA thành pair<int, int> với SE đánh dấu vị trí nằm ở xâu nào
 struct SuffixArray {
+	static const int MAXN = 100000 + 10;
 	char T[MAXN];
 	int nsz;
 	int RA[MAXN], tmpRA[MAXN];
 	int SA[MAXN], tmpSA[MAXN];
 	int c[MAXN];
 	int Phi[MAXN], PLCP[MAXN];
-	int LCP[MAXN], nID[MAXN];
-	void init(string str) {
-		for (int i=0; i<sz(str); i++) {
-			T[i] = str[i];
-		}
-		T[sz(str)] = '\0';
+	int LCP[MAXN];
+	void init(char* str) {
+		strcpy(T, str);
 		nsz = strlen(T);
 		for (int i = 0; i < nsz; i++) {
 			RA[i] = tmpRA[i] = 0;
@@ -50,7 +48,7 @@ struct SuffixArray {
 		for (int i = 1; i < nsz; i++) Phi[SA[i]] = SA[i - 1];
 		for (int i = 0; i < nsz; i++) {
 			if (!~Phi[i]) {PLCP[i] = 0; continue;}
-			while (T[i + L] == T[Phi[i] + L] /*&& T[i + L] != '$'*/) L++;
+			while (T[i + L] == T[Phi[i] + L]  /*&& T[i + L] != '$'*/ ) L++;
 			PLCP[i] = L;
 			L = max(L - 1, 0);
 		}
